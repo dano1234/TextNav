@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation by Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="title-block">
+      <h1>Navigation by Creation</h1>
+    </div>
+    <div class="topic-block">
+      <span class="topic-big">topic: <em id="topic-label">redistribution of wealth</em></span>
+      <button id="generate-btn" class="btn btn-ghost" title="Generate a fresh corpus of essays on a new topic">&#10024; New topic</button>
+    </div>
+    <div class="topbar-actions">
+      <span id="status-pill" class="status-pill">loading&hellip;</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Top: the map -->
+    <section class="pane map-pane">
+      <div id="map-wrap" class="map-wrap">
+        <canvas id="map-canvas"></canvas>
+        <div id="map-tooltip" class="map-tooltip hidden"></div>
+        <div id="map-overlay" class="map-overlay">
+          <div class="loader"></div>
+          <p id="overlay-message">Loading embedding model&hellip;</p>
+          <p id="overlay-detail" class="overlay-detail"></p>
+        </div>
+      </div>
+      <div class="map-legend" id="map-legend"></div>
+    </section>
+
+    <!-- Bottom: the user's essay, full width -->
+    <section class="pane editor-pane">
+      <div class="pane-header">
+        <h2>Your essay</h2>
+        <span class="hint">Edit to move. The map updates as you write.</span>
+        <span class="editor-meta">
+          <span id="embed-status" class="embed-status"></span>
+          <span id="word-count" class="word-count"></span>
+        </span>
+      </div>
+      <textarea id="essay-input" spellcheck="true"
+        placeholder="Write your own take on the topic&hellip; As you edit, your position on the map updates. Try steering toward a cluster by borrowing its language and ideas."></textarea>
+    </section>
+  </main>
+
+  <!-- Essay reader (click a point) -->
+  <aside id="reader" class="reader hidden">
+    <div class="reader-header">
+      <h3 id="reader-title"></h3>
+      <button id="reader-close" class="btn btn-ghost">&times;</button>
+    </div>
+    <p id="reader-meta" class="reader-meta"></p>
+    <div id="reader-body" class="reader-body"></div>
+    <button id="reader-seed" class="btn btn-primary">Start from this essay</button>
+  </aside>
+
+  <!-- Generate corpus dialog -->
+  <dialog id="generate-dialog">
+    <form method="dialog" class="settings-form">
+      <h3>Generate a perspective space</h3>
+      <p class="settings-note">Claude (via the <a href="https://itp-ima-replicate-proxy.web.app/" target="_blank" rel="noopener">ITP-IMA proxy</a>) invents distinct perspectives on your topic and writes a short essay from each one. Takes a minute or two; the new corpus replaces the current map.</p>
+      <label>Topic
+        <input id="gen-topic" type="text" placeholder="e.g. zoos, social media, the suburbs" autocomplete="off" />
+      </label>
+      <label>Number of perspectives
+        <select id="gen-count">
+          <option value="12">12</option>
+          <option value="20" selected>20</option>
+          <option value="28">28</option>
+        </select>
+      </label>
+      <div class="settings-actions">
+        <button type="button" id="cfg-restore" class="btn btn-ghost" title="Discard generated essays and return to the bundled wealth-redistribution corpus">Restore seed corpus</button>
+        <button value="cancel" class="btn btn-ghost">Cancel</button>
+        <button value="generate" class="btn btn-primary">&#10024; Generate</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="js/app.js?v=2"></script>
+</body>
+</html>
